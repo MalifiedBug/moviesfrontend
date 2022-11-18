@@ -11,12 +11,9 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import { alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { redirect } from "react-router-dom";
 import {
-  BrowserRouter as Router,
   Routes,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +31,7 @@ const Item = styled(Paper)(({ theme }) => ({
   lineHeight: '60px',
 }));
 
-const darkTheme = createTheme({ palette: { mode: 'dark' } });
+// const darkTheme = createTheme({ palette: { mode: 'dark' } });
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 
 const Search = styled('div')(({ theme }) => ({
@@ -83,7 +80,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 function App() {
-  const [movies,setData] = useState([
+  const movies = [
     {
       name: "Vikram",
       poster:
@@ -154,7 +151,7 @@ function App() {
       summary:
         "Remy, a rat, aspires to become a renowned French chef. However, he fails to realise that people despise rodents and will never enjoy a meal cooked by him."
     }
-  ])
+  ]
   const [newmovies, setMovies] = useState([])
 
   const newestmovies = movies.concat(newmovies)
@@ -166,7 +163,6 @@ function App() {
     
   },[])
 
-  const [search, setSearch] = useState("")
 
   const navigate = useNavigate();
 
