@@ -1,9 +1,7 @@
 import Movie from "./Movie";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 export default function MovieList() {
-  const { id } = useParams();
 
   const [movies, setMovies] = useState([]);
 

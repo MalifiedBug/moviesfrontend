@@ -120,7 +120,7 @@ function DeleteMovie() {
     fetch(`https://632464475c1b435727a76571.mockapi.io/movies/${id}`, {
       method: "DELETE",
     }).then((data) => data.json());
-  }, []);
+  }, [id]);
   return (
     <div>
       <h1>Deleted movie with id:{id}</h1>
