@@ -135,3 +135,16 @@
   width: min-content;
 
 }
+
+.movietitle{
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  align-items: center;
+}
+
+.toolbar{
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+}
+
+

@@ -1,105 +1,235 @@
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 
-import Counter from "./Counter"
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Toggle from "./ToggleSummary";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(0),
-    textAlign: 'center',
-    height:32,
-    marginLeft: '0.3rem',
-    scrollMarginRight: '0.3rem',
-    color: theme.palette.text.secondary,
-  }));
+import { useFormik } from "formik";
 
-  const Item2 = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(0),
-    textAlign: 'center',
-    height:'auto',
-    margin: '1rem',
-    color: theme.palette.text.secondary,
-  }));
+import * as Yup from "yup";
 
-  const Item3 = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(0),
-    textAlign: 'center',
-    height:'auto',
-    display:'flex',
-    justifyContent:'space-evenly',
-    alignItems:'center',
-    color: theme.palette.text.secondary,
-  }));
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
-  const Item4 = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(0),
-    textAlign: 'center',
-    height:'fit-content',
-    width:'16rem',
-    display:'flex',
-    justifyContent:'center',
-    color: theme.palette.text.secondary,
-  }));
+export default function Movie({ movie, index }) {
+  const [expanded, setExpanded] = React.useState(false);
+  const [fav, setFav] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      name: movie.name,
 
+      poster: movie.poster,
 
-export default function Movie({movie}){
+      rating: movie.rating,
 
+      summary: movie.summary,
+    },
 
-    return(
-        <div className="movie-container">
-            <div className="movie-poster-main">
-                <Item4>
-                <img className="movie-poster" src={movie.poster} alt={movie.name}></img> 
-                </Item4>
-               
-            </div>            
-            <div className="movie-heading">
-            <Box sx={{ flexGrow: 1}}>
-            <Grid container spacing={2}>
-            <Grid item xs={12}>
-          <Item3><h3>{movie.name}</h3><p>⭐{movie.rating}</p></Item3>
-            </Grid>              
-            </Grid>
+    validationSchema: Yup.object({
+      name: Yup.string()
 
-            </Box>
-                
-                
-            </div>
-            <div className="counter+button">
+        .max(30, "Must be 30 characters or less")
 
-            <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Item><Counter /></Item>
-        </Grid>
-        <Grid item xs={6}>
-          <Item><Toggle /></Item>
-        </Grid>       
-      </Grid>
-    </Box>           
-           
-            </div>           
-            <div className="movie-summary">
-            <Box sx={{ flexGrow: 1}}>
-            <Grid container spacing={2}>
-            <Grid item xs={12}>
-          <Item2>{movie.summary}</Item2>
-        </Grid>                
-            </Grid>
+        .required("Required"),
 
-            </Box>
-               
-            </div>
-        </div>
-    )
+      poster: Yup.string().required("Required"),
+
+      rating: Yup.number().positive().required("Required").min(0).max(10),
+      summary: Yup.string()
+
+        .max(1000, "Must be 1000 characters or less")
+
+        .required("Required"),
+    }),
+
+    onSubmit: async (values) => {
+      alert("movie updated");
+
+      await fetch(
+        `https://632464475c1b435727a76571.mockapi.io/movies/${movie.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then(handleClose())
+        .then(navigate("/tictactoe"));
+    },
+  });
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const navigate = useNavigate();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Paper elevation={12}>
+      <Card id={index} sx={{ width: 250 }}>
+        <CardMedia
+          component="img"
+          height="300"
+          image={movie.poster}
+          alt={movie.name}
+        />
+        <CardContent>
+          <Typography
+            className="movietitle"
+            variant="body2"
+            color="text.secondary"
+          >
+            <h3>{movie.name}</h3>
+            <h3>⭐{movie.rating}</h3>
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton
+            onClick={() => setFav(!fav)}
+            aria-label="add to favorites"
+          >
+            <FavoriteIcon color={fav ? "error" : "disabled"} />
+          </IconButton>
+
+          <IconButton onClick={handleClickOpen} aria-label="delete">
+            <EditIcon />
+          </IconButton>
+
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Edit Movie</DialogTitle>
+            <DialogContent>
+              <form className="addmovieform" onSubmit={formik.handleSubmit}>
+                <label htmlFor="name">Movie Name</label>
+
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.name}
+                />
+
+                {formik.touched.name && formik.errors.name ? (
+                  <div className="error">{formik.errors.name}</div>
+                ) : null}
+
+                <label htmlFor="poster">Poster</label>
+
+                <input
+                  id="poster"
+                  name="poster"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.poster}
+                />
+
+                {formik.touched.poster && formik.errors.poster ? (
+                  <div className="error">{formik.errors.poster}</div>
+                ) : null}
+
+                <label htmlFor="rating">Rating</label>
+
+                <input
+                  id="rating"
+                  name="rating"
+                  type="number"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                />
+
+                {formik.touched.rating && formik.errors.rating ? (
+                  <div className="error">{formik.errors.rating}</div>
+                ) : null}
+
+                <label htmlFor="summary">Summary</label>
+
+                <input
+                  id="summary"
+                  name="summary"
+                  type="summary"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.summary}
+                />
+
+                {formik.touched.summary && formik.errors.summary ? (
+                  <div className="error">{formik.errors.summary}</div>
+                ) : null}
+
+                <Button
+                  variant="outlined"
+                  style={{ margin: "2rem" }}
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          <IconButton
+            onClick={() => {
+              navigate(`/movies/${movie.id}`);
+            }}
+            color="error"
+            aria-label="delete"
+          >
+            <DeleteIcon />
+          </IconButton>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>{movie.summary}</Typography>
+          </CardContent>
+        </Collapse>
+      </Card>
+    </Paper>
+  );
 }

@@ -42,7 +42,8 @@ export default function Add(){
    
         onSubmit: async values => {
    
-          alert(JSON.stringify(values, null, 2));
+          alert("movie added successfully, goto movies");
+
           await fetch("https://632464475c1b435727a76571.mockapi.io/movies",
           {
             method:'POST',
@@ -50,8 +51,7 @@ export default function Add(){
             headers: {
                 'Content-Type': 'application/json'
               },
-          })
-   
+          })   
         },
    
       });
