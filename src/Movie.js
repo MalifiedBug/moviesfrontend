@@ -226,7 +226,7 @@ export default function Movie({ movie, index }) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{movie.summary}</Typography>
+            <Typography sx={{textAlign:"left"}} paragraph>{movie.summary}</Typography>
           </CardContent>
         </Collapse>
       </Card>
