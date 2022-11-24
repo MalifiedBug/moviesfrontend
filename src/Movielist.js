@@ -18,7 +18,9 @@ export default function MovieList() {
   return (
     <div className="movielist-container">
       {movies.map((mv, index) => (
-        <Movie index={index} movie={mv} />
+        <div>
+          <Movie index={index} movie={mv} />
+        </div>
       ))}
     </div>
   );
