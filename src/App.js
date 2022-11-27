@@ -33,8 +33,8 @@ function App() {
       <Box>
         <Item>
           <div className="App">
-            <AppBar position="static">
-              <Toolbar>
+            <AppBar  position="static">
+              <Toolbar className="bg-cyan-900">
                 <Button
                   size="large"
                   edge="start"
@@ -90,12 +90,11 @@ function App() {
 function Home() {
   return (
     <div className="home">
-      <h1>Welcome to Movies...</h1>
-      <h4>You can use this app to make a library of your favourite movies.</h4>
-      <h5>
-        Go ahead... your data is stored over the API, so you can retrieve it
-        back when ever you visit.
-      </h5>
+      <div class="sm:text-start">
+      <h2 class="text-lg font-bold leading-8 text-indigo-600">Welcome to Movies App</h2>
+      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">A better way to store Movies</p>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600"><b>Make a library of your favourite movies in one place...</b></p>
+    </div>
     </div>
   );
 }
