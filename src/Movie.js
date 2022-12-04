@@ -104,8 +104,8 @@ export default function Movie({ movie, index }) {
     <Paper elevation={12}>
       <Card id={index} sx={{ width: 250 }}>
         <CardMedia
+        className="h-72"
           component="img"
-          height="300"
           image={movie.poster}
           alt={movie.name}
         />
