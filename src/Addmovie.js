@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 
 import * as Yup from "yup";
-import { NavigationSharp } from "@mui/icons-material";
 
 export default function Add() {
   const formik = useFormik({

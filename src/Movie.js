@@ -298,7 +298,3 @@ export default function Movie({ movie, index }) {
     </Paper>
   );
 }
-
-function displayAlert() {
-  return <Alert severity="error">Movie deleted</Alert>;
-}

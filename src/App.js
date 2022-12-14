@@ -1,6 +1,5 @@
 import "./App.css";
 import MovieList from "./Movielist";
-import { useEffect } from "react";
 import Add from "./Addmovie";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -12,7 +11,6 @@ import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TicTacToe from "./TicTacToe";
-import { useParams } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
