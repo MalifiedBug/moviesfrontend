@@ -20,9 +20,15 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
+import Alert from "@mui/material/Alert";
+
 import { useFormik } from "formik";
 
 import * as Yup from "yup";
+
+import Popover from "@mui/material/Popover";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -100,11 +106,40 @@ export default function Movie({ movie, index }) {
     setOpen(false);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickDelete = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseDelete = () => {
+    setAnchorEl(null);
+  };
+
+  const openDelete = Boolean(anchorEl);
+  const id = openDelete ? "simple-popover" : undefined;
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [deleteResponse, setDeleteResponse] = useState(null);
+
+  async function DeleteMovie(id) {
+    await fetch(`https://632464475c1b435727a76571.mockapi.io/movies/${id}`, {
+      method: "DELETE",
+    })
+      .then((data) => data.json())
+      .then((response) => setDeleteResponse(response));
+  }
+
+  if (deleteResponse !== null) {
+    window.location.reload();
+    setDeleteResponse(null);
+    setDeleteAlert(false)
+  }
+
   return (
     <Paper elevation={12}>
       <Card id={index} sx={{ width: 250 }}>
         <CardMedia
-        className="h-72"
+          className="h-72"
           component="img"
           image={movie.poster}
           alt={movie.name}
@@ -126,19 +161,21 @@ export default function Movie({ movie, index }) {
           >
             <FavoriteIcon color={fav ? "error" : "disabled"} />
           </IconButton>
-
           <IconButton onClick={handleClickOpen} aria-label="delete">
             <EditIcon />
           </IconButton>
-
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle className="self-center">Edit Movie</DialogTitle>
             <DialogContent className="">
-              <form className="grid rounded-lg grid-cols-1 gap-5 justify-items-center" onSubmit={formik.handleSubmit}>
-                <label className="" htmlFor="name">Movie Name</label>
-
+              <form
+                className="grid rounded-lg grid-cols-1 gap-5 justify-items-center"
+                onSubmit={formik.handleSubmit}
+              >
+                <label className="" htmlFor="name">
+                  Movie Name
+                </label>
                 <input
-                className="bg-gray-300 rounded-lg p-2"
+                  className="bg-gray-300 rounded-lg p-2"
                   id="name"
                   name="name"
                   type="text"
@@ -146,15 +183,14 @@ export default function Movie({ movie, index }) {
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
                 />
-
                 {formik.touched.name && formik.errors.name ? (
                   <div className="error">{formik.errors.name}</div>
                 ) : null}
-
-                <label className="" htmlFor="poster">Poster</label>
-
+                <label className="" htmlFor="poster">
+                  Poster
+                </label>
                 <input
-                className="bg-gray-300 rounded-lg p-2"
+                  className="bg-gray-300 rounded-lg p-2"
                   id="poster"
                   name="poster"
                   type="text"
@@ -162,15 +198,14 @@ export default function Movie({ movie, index }) {
                   onBlur={formik.handleBlur}
                   value={formik.values.poster}
                 />
-
                 {formik.touched.poster && formik.errors.poster ? (
                   <div className="error">{formik.errors.poster}</div>
                 ) : null}
-
-                <label className="" htmlFor="rating">Rating</label>
-
+                <label className="" htmlFor="rating">
+                  Rating
+                </label>
                 <input
-                className="bg-gray-300 rounded-lg p-2"
+                  className="bg-gray-300 rounded-lg p-2"
                   id="rating"
                   name="rating"
                   type="number"
@@ -178,15 +213,14 @@ export default function Movie({ movie, index }) {
                   onBlur={formik.handleBlur}
                   value={formik.values.rating}
                 />
-
                 {formik.touched.rating && formik.errors.rating ? (
                   <div className="error">{formik.errors.rating}</div>
                 ) : null}
-
-                <label className="" htmlFor="summary">Summary</label>
-
+                <label className="" htmlFor="summary">
+                  Summary
+                </label>
                 <input
-                className="bg-gray-300 rounded-lg p-2"
+                  className="bg-gray-300 rounded-lg p-2"
                   id="summary"
                   name="summary"
                   type="summary"
@@ -194,11 +228,9 @@ export default function Movie({ movie, index }) {
                   onBlur={formik.handleBlur}
                   value={formik.values.summary}
                 />
-
                 {formik.touched.summary && formik.errors.summary ? (
                   <div className="error">{formik.errors.summary}</div>
                 ) : null}
-
                 <Button
                   variant="outlined"
                   style={{ margin: "2rem" }}
@@ -209,16 +241,43 @@ export default function Movie({ movie, index }) {
               </form>
             </DialogContent>
           </Dialog>
-
           <IconButton
-            onClick={() => {
-              navigate(`/movies/${movie.id}`);
-            }}
+            onClick={handleClickDelete}
             color="error"
             aria-label="delete"
           >
             <DeleteIcon />
           </IconButton>
+          <Popover
+            id={id}
+            open={openDelete}
+            anchorEl={anchorEl}
+            onClose={handleCloseDelete}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+          >
+            <Typography sx={{ p: 2 }}>
+             
+              {deleteAlert ? (
+                <CircularProgress />
+              ) : (
+                <div>
+                  Are you sure?{" "}
+                  <button
+                    className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-700"
+                    onClick={async () => {
+                      setDeleteAlert(true);
+                      await DeleteMovie(movie.id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </Typography>
+          </Popover>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
@@ -230,10 +289,16 @@ export default function Movie({ movie, index }) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography sx={{textAlign:"left"}} paragraph>{movie.summary}</Typography>
+            <Typography sx={{ textAlign: "left" }} paragraph>
+              {movie.summary}
+            </Typography>
           </CardContent>
         </Collapse>
       </Card>
     </Paper>
   );
+}
+
+function displayAlert() {
+  return <Alert severity="error">Movie deleted</Alert>;
 }

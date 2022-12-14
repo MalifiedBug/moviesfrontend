@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 
 import * as Yup from "yup";
+import { NavigationSharp } from "@mui/icons-material";
 
 export default function Add() {
   const formik = useFormik({
@@ -33,18 +35,19 @@ export default function Add() {
         .required("Required"),
     }),
 
-    onSubmit: async (values) => {
-      alert("movie added successfully, goto movies");
-
+    onSubmit: async (values, {resetForm}) => {
       await fetch("https://632464475c1b435727a76571.mockapi.io/movies", {
         method: "POST",
         body: JSON.stringify(values),
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      }).then(resetForm());
+      setTimeout(navigate("/movies"),5000)
     },
   });
+
+  const navigate = useNavigate()
 
   return (
     <form
@@ -54,7 +57,7 @@ export default function Add() {
       <label className="text-indigo-700" htmlFor="name">Movie Name</label>
 
       <input
-      className="rounded-lg p-2 h-10"
+      className="text-black rounded-lg p-2 h-10"
         placeholder="Enter movie name"
         id="name"
         name="name"
@@ -71,7 +74,7 @@ export default function Add() {
       <label className="text-indigo-700" htmlFor="poster">Poster</label>
 
       <input
-      className="rounded-lg p-2 h-10"
+      className="text-black rounded-lg p-2 h-10"
         placeholder="Enter poster url"
         id="poster"
         name="poster"
@@ -88,7 +91,7 @@ export default function Add() {
       <label className="text-indigo-700" htmlFor="rating">Rating</label>
 
       <input
-      className="rounded-lg p-2 h-10"
+      className="text-black rounded-lg p-2 h-10"
         placeholder="Enter rating between 0 - 5"
         id="rating"
         name="rating"
@@ -105,7 +108,7 @@ export default function Add() {
       <label className="text-indigo-700" htmlFor="summary">Summary</label>
 
       <input
-      className="rounded-lg p-2 h-10"
+      className="text-black rounded-lg p-2 h-10"
         placeholder="Enter Summary"
         id="summary"
         name="summary"

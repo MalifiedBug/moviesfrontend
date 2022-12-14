@@ -82,7 +82,6 @@ function App() {
                   element={<Navigate replace to="/movies" />}
                 />
                 <Route path="/movies" element={<MovieList />} />
-                <Route path="/movies/:id" element={<DeleteMovie />} />
                 <Route path="/addmovie" element={<Add />} />
                 <Route path="/tictactoe" element={<TicTacToe />} />
                 <Route path="/404" element={<NotFound />} />
@@ -121,20 +120,6 @@ function NotFound() {
   );
 }
 
-function DeleteMovie() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  useEffect(() => {
-    fetch(`https://632464475c1b435727a76571.mockapi.io/movies/${id}`, {
-      method: "DELETE",
-    }).then((data) => data.json());
-  }, [id]);
-  return (
-    <div>
-      <h1>Deleted movie with id:{id}</h1>
-      <button onClick={() => navigate("/movies")}>Go Back</button>
-    </div>
-  );
-}
+
 
 export default App;
