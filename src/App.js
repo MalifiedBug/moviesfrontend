@@ -59,6 +59,15 @@ function App() {
                 >
                   Add Movie
                 </Button>
+                <Button
+                 
+                  size="large"
+                  edge="start"
+                  color="warning"
+                  onClick={() => navigate("/tictactoe")}
+                >
+                  Tic Tac Toe
+                </Button>
                 {/* <Button size="large"
                     edge="start"
                     color="inherit" onClick={()=>navigate("/tictactoe")}>TicTacToe</Button> */}

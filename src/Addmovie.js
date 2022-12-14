@@ -48,12 +48,13 @@ export default function Add() {
 
   return (
     <form
-      className="bg-slate-500 font-bold text-white addmovieform"
+      className="bg-slate-400 rounded-lg font-bold text-white addmovieform"
       onSubmit={formik.handleSubmit}
     >
-      <label htmlFor="name">Movie Name</label>
+      <label className="text-indigo-700" htmlFor="name">Movie Name</label>
 
       <input
+      className="rounded-lg p-2 h-10"
         placeholder="Enter movie name"
         id="name"
         name="name"
@@ -67,9 +68,10 @@ export default function Add() {
         <div className="error">{formik.errors.name}</div>
       ) : null}
 
-      <label htmlFor="poster">Poster</label>
+      <label className="text-indigo-700" htmlFor="poster">Poster</label>
 
       <input
+      className="rounded-lg p-2 h-10"
         placeholder="Enter poster url"
         id="poster"
         name="poster"
@@ -83,9 +85,10 @@ export default function Add() {
         <div className="error">{formik.errors.poster}</div>
       ) : null}
 
-      <label htmlFor="rating">Rating</label>
+      <label className="text-indigo-700" htmlFor="rating">Rating</label>
 
       <input
+      className="rounded-lg p-2 h-10"
         placeholder="Enter rating between 0 - 5"
         id="rating"
         name="rating"
@@ -99,9 +102,10 @@ export default function Add() {
         <div className="error">{formik.errors.rating}</div>
       ) : null}
 
-      <label htmlFor="summary">Summary</label>
+      <label className="text-indigo-700" htmlFor="summary">Summary</label>
 
       <input
+      className="rounded-lg p-2 h-10"
         placeholder="Enter Summary"
         id="summary"
         name="summary"
@@ -115,7 +119,7 @@ export default function Add() {
         <div className="error">{formik.errors.summary}</div>
       ) : null}
 
-      <button type="submit" class="bg-sky-500 hover:bg-sky-700 ...">
+      <button type="submit" class="bg-sky-500 rounded-lg text-black hover:bg-sky-700 ...">
         Save changes
       </button>
     </form>
