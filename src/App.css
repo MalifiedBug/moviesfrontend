@@ -110,6 +110,7 @@
   border: 2px solid;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1rem;
   width: 50%;
   margin: 2rem;

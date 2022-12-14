@@ -132,12 +132,13 @@ export default function Movie({ movie, index }) {
           </IconButton>
 
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Edit Movie</DialogTitle>
-            <DialogContent>
-              <form className="addmovieform" onSubmit={formik.handleSubmit}>
-                <label htmlFor="name">Movie Name</label>
+            <DialogTitle className="self-center">Edit Movie</DialogTitle>
+            <DialogContent className="">
+              <form className="grid rounded-lg grid-cols-1 gap-5 justify-items-center" onSubmit={formik.handleSubmit}>
+                <label className="" htmlFor="name">Movie Name</label>
 
                 <input
+                className="bg-gray-300 rounded-lg p-2"
                   id="name"
                   name="name"
                   type="text"
@@ -150,9 +151,10 @@ export default function Movie({ movie, index }) {
                   <div className="error">{formik.errors.name}</div>
                 ) : null}
 
-                <label htmlFor="poster">Poster</label>
+                <label className="" htmlFor="poster">Poster</label>
 
                 <input
+                className="bg-gray-300 rounded-lg p-2"
                   id="poster"
                   name="poster"
                   type="text"
@@ -165,24 +167,26 @@ export default function Movie({ movie, index }) {
                   <div className="error">{formik.errors.poster}</div>
                 ) : null}
 
-                <label htmlFor="rating">Rating</label>
+                <label className="" htmlFor="rating">Rating</label>
 
                 <input
+                className="bg-gray-300 rounded-lg p-2"
                   id="rating"
                   name="rating"
                   type="number"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.email}
+                  value={formik.values.rating}
                 />
 
                 {formik.touched.rating && formik.errors.rating ? (
                   <div className="error">{formik.errors.rating}</div>
                 ) : null}
 
-                <label htmlFor="summary">Summary</label>
+                <label className="" htmlFor="summary">Summary</label>
 
                 <input
+                className="bg-gray-300 rounded-lg p-2"
                   id="summary"
                   name="summary"
                   type="summary"
