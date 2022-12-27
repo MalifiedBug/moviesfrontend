@@ -11,6 +11,7 @@ import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TicTacToe from "./TicTacToe";
+import UrlShortner from "./UrlShortner";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -36,7 +37,7 @@ function App() {
                 <Button
                   size="large"
                   edge="start"
-                  color="inherit"
+                  color="error"
                   onClick={() => navigate("/")}
                 >
                   Home
@@ -52,7 +53,7 @@ function App() {
                 <Button
                   size="large"
                   edge="start"
-                  color="inherit"
+                  color="secondary"
                   onClick={() => navigate("/addmovie")}
                 >
                   Add Movie
@@ -65,6 +66,15 @@ function App() {
                   onClick={() => navigate("/tictactoe")}
                 >
                   Tic Tac Toe
+                </Button>
+                <Button
+                 
+                  size="large"
+                  edge="start"
+                  color="primary"
+                  onClick={() => navigate("/urlshortner")}
+                >
+                  Shorty-Url
                 </Button>
                 {/* <Button size="large"
                     edge="start"
@@ -82,6 +92,7 @@ function App() {
                 <Route path="/movies" element={<MovieList />} />
                 <Route path="/addmovie" element={<Add />} />
                 <Route path="/tictactoe" element={<TicTacToe />} />
+                <Route path="/urlshortner" element={<UrlShortner />} />
                 <Route path="/404" element={<NotFound />} />
                 {/* <Route path="*" element={<Navigate replace to="/404"/>}/> */}
               </Routes>

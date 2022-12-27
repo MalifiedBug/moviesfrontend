@@ -21,13 +21,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import CircularProgress from "@mui/material/CircularProgress";
-
+import axios from "axios";
 
 import { useFormik } from "formik";
 
 import * as Yup from "yup";
 
 import Popover from "@mui/material/Popover";
+
+import { ListContext } from "./Movielist";
+import { useContext } from "react";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -42,7 +45,12 @@ const ExpandMore = styled((props) => {
 
 export default function Movie({ movie, index }) {
   const [expanded, setExpanded] = React.useState(false);
-  const [fav, setFav] = useState(false);
+  const [fav, setFav] = useState(movie.favourite);
+
+  const {favResponse,setFavResponse} = useContext(ListContext)
+
+  console.log(favResponse)
+ 
   const formik = useFormik({
     initialValues: {
       name: movie.name,
@@ -155,7 +163,14 @@ export default function Movie({ movie, index }) {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton
-            onClick={() => setFav(!fav)}
+            onClick={() => {
+            setFav(!fav);
+            (async ()=>{
+              const favourite = await axios.put(`https://632464475c1b435727a76571.mockapi.io/movies/${movie.id}`,{
+                favourite:!fav
+              }).then(response => setFavResponse(response))
+              console.log(favourite)
+            })()}}
             aria-label="add to favorites"
           >
             <FavoriteIcon color={fav ? "error" : "disabled"} />
