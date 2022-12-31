@@ -12,6 +12,7 @@ import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TicTacToe from "./TicTacToe";
 import UrlShortner from "./UrlShortner";
+import Calculator from "./Calculator";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -32,7 +33,7 @@ function App() {
       <Box>
         <Item>
           <div className="App">
-            <AppBar  position="static">
+            <AppBar position="static">
               <Toolbar className="bg-cyan-900">
                 <Button
                   size="large"
@@ -59,7 +60,6 @@ function App() {
                   Add Movie
                 </Button>
                 <Button
-                 
                   size="large"
                   edge="start"
                   color="warning"
@@ -68,14 +68,13 @@ function App() {
                   Tic Tac Toe
                 </Button>
                 <Button
-                 
                   size="large"
                   edge="start"
                   color="primary"
                   onClick={() => navigate("/urlshortner")}
                 >
                   Shorty-Url
-                </Button>
+                </Button>                
                 {/* <Button size="large"
                     edge="start"
                     color="inherit" onClick={()=>navigate("/tictactoe")}>TicTacToe</Button> */}
@@ -93,6 +92,7 @@ function App() {
                 <Route path="/addmovie" element={<Add />} />
                 <Route path="/tictactoe" element={<TicTacToe />} />
                 <Route path="/urlshortner" element={<UrlShortner />} />
+                <Route path="/calculator" element={<Calculator />} />
                 <Route path="/404" element={<NotFound />} />
                 {/* <Route path="*" element={<Navigate replace to="/404"/>}/> */}
               </Routes>
@@ -107,11 +107,54 @@ function App() {
 function Home() {
   return (
     <div className="home">
-      <div class="sm:text-start">
-      <h2 class="text-lg font-bold leading-8 text-indigo-600">Welcome to Movies App</h2>
-      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">A better way to store Movies</p>
-      <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600"><b>Make a library of your favourite movies in one place...</b></p>
-    </div>
+      <section className="w-full h-full">
+        <div class="bg-black text-white py-20">
+          <div class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24">
+            <div class="flex flex-col w-full lg:w-1/3 justify-center items-start p-8">
+              <h1 class="text-3xl md:text-5xl p-2 text-yellow-300 tracking-loose">
+                MovieLib.
+              </h1>
+              <h2 class="text-3xl md:text-5xl leading-relaxed md:leading-snug mb-2">
+                Store Movies
+              </h2>
+              <p class="text-sm md:text-base text-gray-50 mb-4">
+                Store your favourite movies all in one place and retrive it back, make it as your watchlist.
+              </p>
+              <a
+                href="/movies"
+                class="bg-transparent hover:bg-yellow-300 text-yellow-300 hover:text-blue-700 rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent"
+              >
+                Explore Now
+              </a>
+            </div>
+            <div class="p-8 mt-12 mb-6 md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3  justify-center">
+              <div class="h-48 flex flex-wrap content-center">
+                <div>
+                  <img
+                    alt=""
+                    class="mt-28 hidden xl:block"
+                    src="https://user-images.githubusercontent.com/54521023/116969935-c13d5b00-acd4-11eb-82b1-5ad2ff10fb76.png"
+                  ></img>
+                </div>
+                <div>
+                  <img
+                    alt=""
+                    class="mt-24 md:mt-0 p-8 md:p-0"
+                    src="https://user-images.githubusercontent.com/54521023/116969931-bedb0100-acd4-11eb-99a9-ff5e0ee9f31f.png"
+                  ></img>
+                </div>
+                <div>
+                  <img
+                    alt=""
+                    class="mt-28 hidden lg:block"
+                    src="https://user-images.githubusercontent.com/54521023/116969939-c1d5f180-acd4-11eb-8ad4-9ab9143bdb50.png"
+                  ></img>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -128,7 +171,5 @@ function NotFound() {
     ></img>
   );
 }
-
-
 
 export default App;
